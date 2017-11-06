@@ -1,6 +1,7 @@
 #local settings
 env_smart_furniture/
 server/.idea/workspace.xml
+server/.idea/dictionaries/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
