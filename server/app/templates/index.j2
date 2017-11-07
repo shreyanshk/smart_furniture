@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>World population</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <center>
+        <h1>Users Sitting or not</h1>
+        <h2>Number of people</h2>
+      </center>
+      <canvas id="myChart" width="1600" height="900"></canvas>
+    </div>
+    <div id='myDiv'>
+
+    </div>
+    <div class="padded">
+      <script>
+    // Our labels along the x-axis
+    //var years = ['20:00','2100','2200','23:00',0,100,200,400,500];
+    // For drawing the lines
+
+    //var africa = [34,55,67,89,232,677,878,567,1892];
+    //var asia = new array();
+    //var europe = new array();
+    //var latinAmerica = new array();
+    //var northAmerica = new array();
+
+    var value = [0];
+    var time = [0];
+
+    function myFunction() {
+        var xmlhttp = new XMLHttpRequest();
+        var url = "/api/user_events";
+        xmlhttp.onreadystatechange = function() {
+        timeseries = []
+        ustate = []
+        if (this.readyState == 4 && this.status == 200) {
+          var data = JSON.parse(xmlhttp.response);
+          for (var i = 0; i < len(data); i++) {
+            timeseries.push(data[i]['timestamp'])
+            ustate.push[data[i] === 'sitting' ? 1 : 0]
+          }
+          var data = [{
+            x: timeseries,
+            y: ustate,
+            type: 'scatter'
+          }];
+          Plotly.newPlot('myDiv', data);
+        }
+      }
+      xmlhttp.open('GET', url);
+      xmlhttp.send();
+    }
+
+    function plotter() {
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: time,
+          datasets: [
+            { 
+              data: value,
+              label: "C1",
+              borderColor: "#3e95cd",
+              fill: false
+            }
+          ]
+        }
+      });
+    }
+
+    setInterval(
+      function() {
+        myFunction();
+        plotter();
+      },
+      1000
+    );
+
+    </script>
+
+    </div>
+    </body>
+</html>
